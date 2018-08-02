@@ -1,4 +1,4 @@
-<?php namespace professionalweb\payment;
+<?php namespace professionalweb\payment\interfaces\upc;
 
 /**
  * Interface for UPC service

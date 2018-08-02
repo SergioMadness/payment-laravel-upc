@@ -9,21 +9,11 @@ use professionalweb\payment\contracts\PayProtocol;
 class UpcProtocol implements PayProtocol
 {
     /**
-     * Test payment gate URL
-     */
-    const URL_PAYMENT_TEST = 'https://ecg.test.upc.ua/go/enter';
-
-    /**
-     * Payment gate URL
-     */
-    const URL_PAYMENT = 'https://secure.upc.ua/go/enter';
-
-    /**
      * Current payment URL
      *
      * @var string
      */
-    private $paymentUrl = self::URL_PAYMENT;
+    private $paymentUrl;
 
     /**
      * Path to PEM file with client keys
@@ -49,19 +39,19 @@ class UpcProtocol implements PayProtocol
      */
     private $terminalId;
 
-    public function __construct($merchantId = '', $terminalId = '', $pathToLocalKey = '',
-                                $pathToPaymentGateKey = '', $isTest = false)
+    public function __construct($url = '', $merchantId = '', $terminalId = '', $pathToLocalKey = '',
+                                $pathToPaymentGateKey = '')
     {
         $this
+            ->setPaymentGateUrl($url)
             ->setMerchantId($merchantId)
             ->setTerminalId($terminalId)
             ->setPathToLocalKey($pathToLocalKey)
-            ->setPathToPaymentGateKey($pathToPaymentGateKey)
-            ->setIsTest($isTest);
+            ->setPathToPaymentGateKey($pathToPaymentGateKey);
     }
 
     /**
-     * Send POST request to Yandex.Kassa
+     * Send POST request to url
      *
      * @param string $url
      * @param array  $params
@@ -243,15 +233,15 @@ class UpcProtocol implements PayProtocol
     }
 
     /**
-     * Set current payment gate
+     * Set payment url
      *
-     * @param bool $flag
+     * @param string $url
      *
      * @return $this
      */
-    public function setIsTest($flag = true)
+    public function setPaymentGateUrl($url)
     {
-        $this->paymentUrl = $flag ? self::URL_PAYMENT_TEST : self::URL_PAYMENT;
+        $this->paymentUrl = $url;
 
         return $this;
     }

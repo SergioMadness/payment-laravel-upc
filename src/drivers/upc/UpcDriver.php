@@ -1,6 +1,6 @@
 <?php namespace professionalweb\payment\drivers\upc;
 
-use professionalweb\payment\UpcService;
+use professionalweb\payment\interfaces\upc\UpcService;
 use Illuminate\Contracts\Support\Arrayable;
 use professionalweb\payment\contracts\PayService;
 use professionalweb\payment\contracts\PayProtocol;

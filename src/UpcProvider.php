@@ -5,6 +5,7 @@ use professionalweb\payment\contracts\PayService;
 use professionalweb\payment\drivers\upc\UpcDriver;
 use professionalweb\payment\drivers\upc\UpcProtocol;
 use professionalweb\payment\contracts\PaymentFacade;
+use professionalweb\payment\interfaces\upc\UpcService;
 
 /**
  * upc.ua payment provider
@@ -34,44 +35,44 @@ class UpcProvider extends ServiceProvider
         $this->app->bind(UpcService::class, function ($app) {
             return (new UpcDriver(config('payment.upc')))->setTransport(
                 new UpcProtocol(
+                    config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
                     config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey'),
-                    config('payment.upc.isTest', false)
+                    config('payment.upc.pathToUpcKey')
                 )
             );
         });
         $this->app->bind(PayService::class, function ($app) {
             return (new UpcDriver(config('payment.upc')))->setTransport(
                 new UpcProtocol(
+                    config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
                     config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey'),
-                    config('payment.upc.isTest', false)
+                    config('payment.upc.pathToUpcKey')
                 )
             );
         });
         $this->app->bind(UpcDriver::class, function ($app) {
             return (new UpcDriver(config('payment.upc')))->setTransport(
                 new UpcProtocol(
+                    config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
                     config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey'),
-                    config('payment.upc.isTest', false)
+                    config('payment.upc.pathToUpcKey')
                 )
             );
         });
         $this->app->bind('\professionalweb\payment\Upc', function ($app) {
             return (new UpcDriver(config('payment.upc')))->setTransport(
                 new UpcProtocol(
+                    config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
                     config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey'),
-                    config('payment.upc.isTest', false)
+                    config('payment.upc.pathToUpcKey')
                 )
             );
         });
