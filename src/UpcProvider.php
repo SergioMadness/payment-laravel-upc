@@ -13,12 +13,6 @@ use professionalweb\payment\interfaces\upc\UpcService;
  */
 class UpcProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
 
     public function boot()
     {
@@ -76,15 +70,5 @@ class UpcProvider extends ServiceProvider
                 )
             );
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [PayService::class, UpcDriver::class, '\professionalweb\payment\Upc'];
     }
 }
