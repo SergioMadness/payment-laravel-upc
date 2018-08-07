@@ -124,9 +124,13 @@ class UpcProtocol implements PayProtocol
      * @param array $params
      *
      * @return string
+     * @throws \Exception
      */
     protected function getSignature(array $params)
     {
+        if (empty($this->getPathToLocalKey())) {
+            throw new \Exception('UPC need key for signature');
+        }
         $purchaseTime = isset($params['PurchaseTime']) ? $params['PurchaseTime'] : '';
         $data = $this->getMerchantId() . ';' . $this->getTerminalId() . ';' . $purchaseTime . ';' . $params['OrderID'] . ';' . $params['Currency'] . ';' . $params['TotalAmount'] . ';' . $params['SD'] . ';';
         $fp = fopen($this->getPathToLocalKey(), 'r');

@@ -32,8 +32,8 @@ class UpcProvider extends ServiceProvider
                     config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
-                    config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey')
+                    config('payment.upc.pathToOurKey'),
+                    config('payment.upc.pathToTheirKey')
                 )
             );
         });
@@ -43,8 +43,8 @@ class UpcProvider extends ServiceProvider
                     config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
-                    config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey')
+                    config('payment.upc.pathToOurKey'),
+                    config('payment.upc.pathToTheirKey')
                 )
             );
         });
@@ -54,8 +54,8 @@ class UpcProvider extends ServiceProvider
                     config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
-                    config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey')
+                    config('payment.upc.pathToOurKey'),
+                    config('payment.upc.pathToTheirKey')
                 )
             );
         });
@@ -65,8 +65,8 @@ class UpcProvider extends ServiceProvider
                     config('payment.upc.url'),
                     config('payment.upc.merchantId'),
                     config('payment.upc.terminalId'),
-                    config('payment.upc.pathToLocalKey'),
-                    config('payment.upc.pathToUpcKey')
+                    config('payment.upc.pathToOurKey'),
+                    config('payment.upc.pathToTheirKey')
                 )
             );
         });
