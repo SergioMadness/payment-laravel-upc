@@ -135,7 +135,7 @@ class UpcProtocol implements PayProtocol
 
         $data = '';
         $dataMask = ['MerchantID', 'TerminalID', 'PurchaseTime',
-            'OrderID,Delay', 'XID', 'Currency', 'TotalAmount', 'SD', 'TranCode', 'ApprovalCode'];
+            'OrderID', 'XID', 'Currency', 'TotalAmount', 'SD', 'TranCode', 'ApprovalCode'];
         $collectDataVals = [];
         foreach ($dataMask as $dataItem) {
             if (isset($request[$dataItem]) && !empty($request[$dataItem])) {
@@ -174,7 +174,7 @@ class UpcProtocol implements PayProtocol
         $responseString = '';
         $responseString .= 'MerchantID=' . $this->getMerchantId() . "\n";
         $responseString .= 'TerminalID=' . $this->getTerminalId() . "\n";
-        $responseString .= 'OrderID=' . $requestData['OrderId'] . "\n";
+        $responseString .= 'OrderID=' . $requestData['OrderID'] . "\n";
         $responseString .= 'Currency=' . $requestData['Currency'] . "\n";
         $responseString .= 'TotalAmount=' . $requestData['TotalAmount'] . "\n";
         $responseString .= 'XID=' . $requestData['XID'] . "\n";
