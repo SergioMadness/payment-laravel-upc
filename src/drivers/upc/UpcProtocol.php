@@ -172,14 +172,14 @@ class UpcProtocol implements PayProtocol
     public function getNotificationResponse($requestData, $errorCode)
     {
         $responseString = '';
-        $responseString .= 'MerchantID=' . $this->getMerchantId() . '\n';
-        $responseString .= 'TerminalID=' . $this->getTerminalId() . '\n';
-        $responseString .= 'OrderID=' . $requestData['OrderId'] . '\n';
-        $responseString .= 'Currency=' . $requestData['Currency'] . '\n';
-        $responseString .= 'TotalAmount=' . $requestData['TotalAmount'] . '\n';
-        $responseString .= 'XID=' . $requestData['XID'] . '\n';
-        $responseString .= 'PurchaseTime=' . $requestData['PurchaseTime'] . '\n';
-        $responseString .= 'Response.action=' . ($errorCode === 0 ? 'approve' : 'reverse') . '\n';
+        $responseString .= 'MerchantID=' . $this->getMerchantId() . "\n";
+        $responseString .= 'TerminalID=' . $this->getTerminalId() . "\n";
+        $responseString .= 'OrderID=' . $requestData['OrderId'] . "\n";
+        $responseString .= 'Currency=' . $requestData['Currency'] . "\n";
+        $responseString .= 'TotalAmount=' . $requestData['TotalAmount'] . "\n";
+        $responseString .= 'XID=' . $requestData['XID'] . "\n";
+        $responseString .= 'PurchaseTime=' . $requestData['PurchaseTime'] . "\n";
+        $responseString .= 'Response.action=' . ($errorCode === 0 ? 'approve' : 'reverse') . "\n";
         $responseString .= 'Response.reason=\n';
         $responseString .= 'Response.forwardUrl=\n';
 

@@ -98,6 +98,7 @@ class UpcDriver implements PayService, UpcService
     {
         $form = new Form($this->getTransport()->getPaymentUrl([]));
         $form->setField($this->getTransport()->prepareParams(array_merge([
+            'Version'      => 1,
             'OrderID'      => $orderId,
             'Currency'     => $currency,
             'TotalAmount'  => $amount * 100,
