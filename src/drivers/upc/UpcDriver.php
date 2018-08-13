@@ -239,7 +239,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getProvider()
     {
-        return 'tinkoff';
+        return self::PAYMENT_UPC;
     }
 
     /**

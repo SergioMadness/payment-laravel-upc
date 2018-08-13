@@ -142,7 +142,7 @@ class UpcProtocol implements PayProtocol
                 $collectDataVals[] = $request[$dataItem];
             }
         }
-        $data .= implode(';', $collectDataVals);
+        $data .= implode(';', $collectDataVals) . ';';
 
         $pubKeyId = openssl_get_publickey($cert);
         $checkResult = openssl_verify($data, $signature, $pubKeyId);
@@ -180,8 +180,8 @@ class UpcProtocol implements PayProtocol
         $responseString .= 'XID=' . $requestData['XID'] . "\n";
         $responseString .= 'PurchaseTime=' . $requestData['PurchaseTime'] . "\n";
         $responseString .= 'Response.action=' . ($errorCode === 0 ? 'approve' : 'reverse') . "\n";
-        $responseString .= 'Response.reason=\n';
-        $responseString .= 'Response.forwardUrl=\n';
+        $responseString .= 'Response.reason=' . "\n";
+        $responseString .= 'Response.forwardUrl=' . "\n";
 
         return response($responseString);
     }
