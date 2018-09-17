@@ -1,9 +1,11 @@
 <?php namespace professionalweb\payment\drivers\upc;
 
-use professionalweb\payment\UpcService;
+use professionalweb\payment\Form;
 use Illuminate\Contracts\Support\Arrayable;
 use professionalweb\payment\contracts\PayService;
 use professionalweb\payment\contracts\PayProtocol;
+use professionalweb\payment\contracts\Form as IForm;
+use professionalweb\payment\interfaces\upc\UpcService;
 
 /**
  * Payment service. Pay, Check, etc
@@ -64,15 +66,47 @@ class UpcDriver implements PayService, UpcService
                                    $extraParams = [],
                                    $receipt = null)
     {
-        $params = array_merge([
+        throw new \Exception('Driver needs form');
+    }
+
+    /**
+     * Generate payment form
+     *
+     * @param int       $orderId
+     * @param int       $paymentId
+     * @param float     $amount
+     * @param string    $currency
+     * @param string    $paymentType
+     * @param string    $successReturnUrl
+     * @param string    $failReturnUrl
+     * @param string    $description
+     * @param array     $extraParams
+     * @param Arrayable $receipt
+     *
+     * @return IForm
+     */
+    public function getPaymentForm($orderId,
+                                   $paymentId,
+                                   $amount,
+                                   $currency = self::CURRENCY_RUR,
+                                   $paymentType = self::PAYMENT_TYPE_CARD,
+                                   $successReturnUrl = '',
+                                   $failReturnUrl = '',
+                                   $description = '',
+                                   $extraParams = [],
+                                   $receipt = null)
+    {
+        $form = new Form($this->getTransport()->getPaymentUrl([]));
+        $form->setField($this->getTransport()->prepareParams(array_merge([
+            'Version'      => 1,
             'OrderID'      => $orderId,
             'Currency'     => $currency,
             'TotalAmount'  => $amount * 100,
             'SD'           => $paymentId,
             'PurchaseTime' => date('ymdHis'),
-        ], $extraParams);
+        ], $extraParams)));
 
-        return $this->getTransport()->getPaymentUrl($params);
+        return $form;
     }
 
     /**
@@ -205,7 +239,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getProvider()
     {
-        return 'tinkoff';
+        return self::PAYMENT_UPC;
     }
 
     /**
@@ -267,7 +301,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getNotificationResponse($errorCode = null)
     {
-        return $this->getTransport()->getNotificationResponse($this->response, $errorCode);
+        return $this->getTransport()->getNotificationResponse($this->response, $errorCode !== null ? $errorCode : $this->getErrorCode());
     }
 
     /**
@@ -279,7 +313,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getCheckResponse($errorCode = null)
     {
-        return $this->getTransport()->getNotificationResponse($this->response, $errorCode);
+        return $this->getTransport()->getNotificationResponse($this->response, $errorCode !== null ? $errorCode : $this->getErrorCode());
     }
 
     /**
@@ -311,7 +345,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getName()
     {
-        return 'upc';
+        return self::PAYMENT_UPC;
     }
 
     /**
@@ -322,5 +356,16 @@ class UpcDriver implements PayService, UpcService
     public function getPaymentId()
     {
         return $this->getResponseParam('SD');
+    }
+
+    /**
+     * Payment system need form
+     * You can not get url for redirect
+     *
+     * @return bool
+     */
+    public function needForm()
+    {
+        return true;
     }
 }
