@@ -59,16 +59,5 @@ class UpcProvider extends ServiceProvider
                 )
             );
         });
-        $this->app->bind('\professionalweb\payment\Upc', function ($app) {
-            return (new UpcDriver(config('payment.upc')))->setTransport(
-                new UpcProtocol(
-                    config('payment.upc.url'),
-                    config('payment.upc.merchantId'),
-                    config('payment.upc.terminalId'),
-                    config('payment.upc.pathToOurKey'),
-                    config('payment.upc.pathToTheirKey')
-                )
-            );
-        });
     }
 }

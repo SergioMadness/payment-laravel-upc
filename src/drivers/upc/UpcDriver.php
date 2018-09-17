@@ -345,7 +345,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getName()
     {
-        return 'upc';
+        return self::PAYMENT_UPC;
     }
 
     /**

@@ -27,8 +27,8 @@
     "source": "https://github.com/SergioMadness/payment-laravel-upc/releases"
   },
   "require": {
-    "illuminate/support": "5.2.* || 5.3.* || 5.4.* || 5.5.*",
-    "professionalweb/payment-laravel": "dev-devide-drivers"
+    "illuminate/support": "5.*",
+    "professionalweb/payment-laravel": "^3.0"
   },
   "require-dev": {
     "codeception/codeception": "*",
