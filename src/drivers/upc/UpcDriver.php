@@ -1,5 +1,7 @@
 <?php namespace professionalweb\payment\drivers\upc;
 
+use Illuminate\Http\Response;
+use professionalweb\payment\contracts\Receipt;
 use professionalweb\payment\Form;
 use Illuminate\Contracts\Support\Arrayable;
 use professionalweb\payment\contracts\PayService;
@@ -34,7 +36,7 @@ class UpcDriver implements PayService, UpcService
      */
     protected $response;
 
-    public function __construct($config)
+    public function __construct(?array $config = [])
     {
         $this->setConfig($config);
     }
@@ -46,25 +48,26 @@ class UpcDriver implements PayService, UpcService
      * @param int        $paymentId
      * @param float      $amount
      * @param int|string $currency
+     * @param string     $paymentType
      * @param string     $successReturnUrl
      * @param string     $failReturnUrl
      * @param string     $description
      * @param array      $extraParams
-     * @param Arrayable  $receipt
+     * @param Receipt    $receipt
      *
      * @return string
      * @throws \Exception
      */
     public function getPaymentLink($orderId,
                                    $paymentId,
-                                   $amount,
-                                   $currency = self::CURRENCY_UAH_ISO,
-                                   $paymentType = self::PAYMENT_TYPE_CARD,
-                                   $successReturnUrl = '',
-                                   $failReturnUrl = '',
-                                   $description = '',
-                                   $extraParams = [],
-                                   $receipt = null)
+                                   float $amount,
+                                   string $currency = self::CURRENCY_UAH_ISO,
+                                   string $paymentType = self::PAYMENT_TYPE_CARD,
+                                   string $successReturnUrl = '',
+                                   string $failReturnUrl = '',
+                                   string $description = '',
+                                   array $extraParams = [],
+                                   Receipt $receipt = null): string
     {
         throw new \Exception('Driver needs form');
     }
@@ -72,29 +75,29 @@ class UpcDriver implements PayService, UpcService
     /**
      * Generate payment form
      *
-     * @param int       $orderId
-     * @param int       $paymentId
-     * @param float     $amount
-     * @param string    $currency
-     * @param string    $paymentType
-     * @param string    $successReturnUrl
-     * @param string    $failReturnUrl
-     * @param string    $description
-     * @param array     $extraParams
-     * @param Arrayable $receipt
+     * @param int     $orderId
+     * @param int     $paymentId
+     * @param float   $amount
+     * @param string  $currency
+     * @param string  $paymentType
+     * @param string  $successReturnUrl
+     * @param string  $failReturnUrl
+     * @param string  $description
+     * @param array   $extraParams
+     * @param Receipt $receipt
      *
      * @return IForm
      */
     public function getPaymentForm($orderId,
                                    $paymentId,
-                                   $amount,
-                                   $currency = self::CURRENCY_RUR,
-                                   $paymentType = self::PAYMENT_TYPE_CARD,
-                                   $successReturnUrl = '',
-                                   $failReturnUrl = '',
-                                   $description = '',
-                                   $extraParams = [],
-                                   $receipt = null)
+                                   float $amount,
+                                   string $currency = self::CURRENCY_RUR,
+                                   string $paymentType = self::PAYMENT_TYPE_CARD,
+                                   string $successReturnUrl = '',
+                                   string $failReturnUrl = '',
+                                   string $description = '',
+                                   array $extraParams = [],
+                                   Receipt $receipt = null): IForm
     {
         $form = new Form($this->getTransport()->getPaymentUrl([]));
         $form->setField($this->getTransport()->prepareParams(array_merge([
@@ -116,7 +119,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return bool
      */
-    public function validate($data)
+    public function validate(array $data): bool
     {
         return $this->getTransport()->validate($data);
     }
@@ -126,7 +129,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return array
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -138,7 +141,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return $this
      */
-    public function setConfig($config)
+    public function setConfig(?array $config): self
     {
         $this->config = $config;
 
@@ -152,7 +155,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return mixed
      */
-    public function setResponse($data)
+    public function setResponse(array $data): PayService
     {
         $this->response = $data;
 
@@ -167,9 +170,9 @@ class UpcDriver implements PayService, UpcService
      *
      * @return mixed|string
      */
-    public function getResponseParam($name, $default = '')
+    public function getResponseParam(string $name, $default = '')
     {
-        return isset($this->response[$name]) ? $this->response[$name] : $default;
+        return $this->response[$name] ?? $default;
     }
 
     /**
@@ -177,7 +180,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getOrderId()
+    public function getOrderId(): string
     {
         return $this->getResponseParam('OrderID');
     }
@@ -187,7 +190,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->isSuccess() ? 'success' : 'failed';
     }
@@ -197,7 +200,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return bool
      */
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         return $this->getErrorCode() === 0;
     }
@@ -207,7 +210,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return $this->getResponseParam('Rrn');
     }
@@ -217,19 +220,19 @@ class UpcDriver implements PayService, UpcService
      *
      * @return float
      */
-    public function getAmount()
+    public function getAmount(): float
     {
-        return $this->getResponseParam('TotalAmount');
+        return (float)$this->getResponseParam('TotalAmount');
     }
 
     /**
      * Get error code
      *
-     * @return int
+     * @return string
      */
-    public function getErrorCode()
+    public function getErrorCode(): string
     {
-        return (int)$this->getResponseParam('TranCode', 0);
+        return (int)$this->getResponseParam('TranCode', '');
     }
 
     /**
@@ -237,7 +240,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getProvider()
+    public function getProvider(): string
     {
         return self::PAYMENT_UPC;
     }
@@ -247,7 +250,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getPan()
+    public function getPan(): string
     {
         return $this->getResponseParam('ProxyPan');
     }
@@ -257,7 +260,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getDateTime()
+    public function getDateTime(): string
     {
         $purchaseTime = $this->getResponseParam('PurchaseTime');
         $result = '';
@@ -275,7 +278,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return $this
      */
-    public function setTransport(PayProtocol $protocol)
+    public function setTransport(PayProtocol $protocol): PayService
     {
         $this->transport = $protocol;
 
@@ -287,7 +290,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return PayProtocol
      */
-    public function getTransport()
+    public function getTransport(): PayProtocol
     {
         return $this->transport;
     }
@@ -297,11 +300,11 @@ class UpcDriver implements PayService, UpcService
      *
      * @param int $errorCode
      *
-     * @return string
+     * @return Response
      */
-    public function getNotificationResponse($errorCode = null)
+    public function getNotificationResponse(int $errorCode = null): Response
     {
-        return $this->getTransport()->getNotificationResponse($this->response, $errorCode !== null ? $errorCode : $this->getErrorCode());
+        return response($this->getTransport()->getNotificationResponse($this->response, $errorCode ?? $this->getErrorCode()));
     }
 
     /**
@@ -309,11 +312,11 @@ class UpcDriver implements PayService, UpcService
      *
      * @param int $errorCode
      *
-     * @return string
+     * @return Response
      */
-    public function getCheckResponse($errorCode = null)
+    public function getCheckResponse(int $errorCode = null): Response
     {
-        return $this->getTransport()->getNotificationResponse($this->response, $errorCode !== null ? $errorCode : $this->getErrorCode());
+        return response($this->getTransport()->getNotificationResponse($this->response, $errorCode ?? $this->getErrorCode()));
     }
 
     /**
@@ -321,7 +324,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return int
      */
-    public function getLastError()
+    public function getLastError(): int
     {
         return 0;
     }
@@ -333,7 +336,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return mixed
      */
-    public function getParam($name)
+    public function getParam(string $name)
     {
         return $this->getResponseParam($name);
     }
@@ -343,7 +346,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::PAYMENT_UPC;
     }
@@ -353,7 +356,7 @@ class UpcDriver implements PayService, UpcService
      *
      * @return string
      */
-    public function getPaymentId()
+    public function getPaymentId(): string
     {
         return $this->getResponseParam('SD');
     }
@@ -364,8 +367,18 @@ class UpcDriver implements PayService, UpcService
      *
      * @return bool
      */
-    public function needForm()
+    public function needForm(): bool
     {
         return true;
+    }
+
+    /**
+     * Get pay service options
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        // TODO: Implement getOptions() method.
     }
 }

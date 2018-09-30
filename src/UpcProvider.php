@@ -14,7 +14,7 @@ use professionalweb\payment\interfaces\upc\UpcService;
 class UpcProvider extends ServiceProvider
 {
 
-    public function boot()
+    public function boot(): void
     {
         app(PaymentFacade::class)->registerDriver(UpcService::PAYMENT_UPC, UpcService::class);
     }
@@ -24,7 +24,7 @@ class UpcProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(UpcService::class, function ($app) {
             return (new UpcDriver(config('payment.upc')))->setTransport(

@@ -6,5 +6,5 @@
  */
 interface UpcService
 {
-    const PAYMENT_UPC = 'upc';
+    public const PAYMENT_UPC = 'upc';
 }
