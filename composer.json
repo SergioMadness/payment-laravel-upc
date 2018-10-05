@@ -28,7 +28,7 @@
   },
   "require": {
     "illuminate/support": "5.*",
-    "professionalweb/payment-laravel": "^4.0"
+    "professionalweb/payment-laravel": "dev-improvement/interface-add-options"
   },
   "require-dev": {
   },
