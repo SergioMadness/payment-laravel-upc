@@ -8,6 +8,7 @@ use professionalweb\payment\contracts\PayService;
 use professionalweb\payment\contracts\PayProtocol;
 use professionalweb\payment\contracts\Form as IForm;
 use professionalweb\payment\interfaces\upc\UpcService;
+use professionalweb\payment\models\PayServiceOption;
 
 /**
  * Payment service. Pay, Check, etc
@@ -379,6 +380,12 @@ class UpcDriver implements PayService, UpcService
      */
     public function getOptions(): array
     {
-        // TODO: Implement getOptions() method.
+        return [
+            (new PayServiceOption())->setType(PayServiceOption::TYPE_STRING)->setLabel('Url')->setAlias('url'),
+            (new PayServiceOption())->setType(PayServiceOption::TYPE_STRING)->setLabel('Merchant Id')->setAlias('merchantId'),
+            (new PayServiceOption())->setType(PayServiceOption::TYPE_STRING)->setLabel('Secret key')->setAlias('terminalId'),
+            (new PayServiceOption())->setType(PayServiceOption::TYPE_FILE)->setLabel('Secret key')->setAlias('pathToOurKey'),
+            (new PayServiceOption())->setType(PayServiceOption::TYPE_FILE)->setLabel('Secret key')->setAlias('pathToTheirKey'),
+        ];
     }
 }

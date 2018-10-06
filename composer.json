@@ -27,7 +27,6 @@
     "source": "https://github.com/SergioMadness/payment-laravel-upc/releases"
   },
   "require": {
-    "illuminate/support": "5.*",
     "professionalweb/payment-laravel": "dev-improvement/interface-add-options"
   },
   "require-dev": {
