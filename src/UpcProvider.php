@@ -27,35 +27,35 @@ class UpcProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UpcService::class, function ($app) {
-            return (new UpcDriver(config('payment.upc')))->setTransport(
+            return (new UpcDriver(config('payment.upc', [])))->setTransport(
                 new UpcProtocol(
-                    config('payment.upc.url'),
-                    config('payment.upc.merchantId'),
-                    config('payment.upc.terminalId'),
-                    config('payment.upc.pathToOurKey'),
-                    config('payment.upc.pathToTheirKey')
+                    config('payment.upc.url', ''),
+                    config('payment.upc.merchantId', ''),
+                    config('payment.upc.terminalId', ''),
+                    config('payment.upc.pathToOurKey', ''),
+                    config('payment.upc.pathToTheirKey', '')
                 )
             );
         });
         $this->app->bind(PayService::class, function ($app) {
-            return (new UpcDriver(config('payment.upc')))->setTransport(
+            return (new UpcDriver(config('payment.upc', [])))->setTransport(
                 new UpcProtocol(
-                    config('payment.upc.url'),
-                    config('payment.upc.merchantId'),
-                    config('payment.upc.terminalId'),
-                    config('payment.upc.pathToOurKey'),
-                    config('payment.upc.pathToTheirKey')
+                    config('payment.upc.url', ''),
+                    config('payment.upc.merchantId', ''),
+                    config('payment.upc.terminalId', ''),
+                    config('payment.upc.pathToOurKey', ''),
+                    config('payment.upc.pathToTheirKey', '')
                 )
             );
         });
         $this->app->bind(UpcDriver::class, function ($app) {
-            return (new UpcDriver(config('payment.upc')))->setTransport(
+            return (new UpcDriver(config('payment.upc', [])))->setTransport(
                 new UpcProtocol(
-                    config('payment.upc.url'),
-                    config('payment.upc.merchantId'),
-                    config('payment.upc.terminalId'),
-                    config('payment.upc.pathToOurKey'),
-                    config('payment.upc.pathToTheirKey')
+                    config('payment.upc.url', ''),
+                    config('payment.upc.merchantId', ''),
+                    config('payment.upc.terminalId', ''),
+                    config('payment.upc.pathToOurKey', ''),
+                    config('payment.upc.pathToTheirKey', '')
                 )
             );
         });
