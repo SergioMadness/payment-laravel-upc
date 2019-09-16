@@ -27,7 +27,7 @@
     "source": "https://github.com/SergioMadness/payment-laravel-upc/releases"
   },
   "require": {
-    "professionalweb/payment-laravel": "^4.0"
+    "professionalweb/payment-laravel": "3.1.x-dev"
   },
   "require-dev": {
   },
