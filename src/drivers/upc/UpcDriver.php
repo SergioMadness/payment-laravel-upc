@@ -305,7 +305,7 @@ class UpcDriver implements PayService, UpcService
      */
     public function getNotificationResponse(int $errorCode = null): Response
     {
-        return response($this->getTransport()->getNotificationResponse($this->response, $errorCode ?? $this->getErrorCode()));
+        return response($this->getTransport()->getNotificationResponse($this->response, $this->mapErrorCode($errorCode ?? $this->getErrorCode())));
     }
 
     /**
@@ -317,7 +317,17 @@ class UpcDriver implements PayService, UpcService
      */
     public function getCheckResponse(int $errorCode = null): Response
     {
-        return response($this->getTransport()->getNotificationResponse($this->response, $errorCode ?? $this->getErrorCode()));
+        return response($this->getTransport()->getNotificationResponse($this->response, $this->mapErrorCode($errorCode ?? $this->getErrorCode())));
+    }
+
+    protected function mapErrorCode(int $errorCode): int
+    {
+        $map = [
+            self::RESPONSE_SUCCESS => 0,
+            self::RESPONSE_ERROR   => 1,
+        ];
+
+        return $map[$errorCode] ?? 1;
     }
 
     /**
