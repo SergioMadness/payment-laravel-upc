@@ -1,14 +1,13 @@
 <?php namespace professionalweb\payment\drivers\upc;
 
 use Illuminate\Http\Response;
-use professionalweb\payment\contracts\Receipt;
 use professionalweb\payment\Form;
-use Illuminate\Contracts\Support\Arrayable;
+use professionalweb\payment\contracts\Receipt;
 use professionalweb\payment\contracts\PayService;
 use professionalweb\payment\contracts\PayProtocol;
 use professionalweb\payment\contracts\Form as IForm;
-use professionalweb\payment\interfaces\upc\UpcService;
 use professionalweb\payment\models\PayServiceOption;
+use professionalweb\payment\interfaces\upc\UpcService;
 
 /**
  * Payment service. Pay, Check, etc
@@ -397,5 +396,75 @@ class UpcDriver implements PayService, UpcService
             (new PayServiceOption())->setType(PayServiceOption::TYPE_FILE)->setLabel('Secret key')->setAlias('pathToOurKey'),
             (new PayServiceOption())->setType(PayServiceOption::TYPE_FILE)->setLabel('Secret key')->setAlias('pathToTheirKey'),
         ];
+    }
+
+    /**
+     * Get payment currency
+     *
+     * @return string
+     */
+    public function getCurrency(): string
+    {
+        return '';
+    }
+
+    /**
+     * Get card type. Visa, MC etc
+     *
+     * @return string
+     */
+    public function getCardType(): string
+    {
+        return '';
+    }
+
+    /**
+     * Get card expiration date
+     *
+     * @return string
+     */
+    public function getCardExpDate(): string
+    {
+        return '';
+    }
+
+    /**
+     * Get cardholder name
+     *
+     * @return string
+     */
+    public function getCardUserName(): string
+    {
+        return '';
+    }
+
+    /**
+     * Get card issuer
+     *
+     * @return string
+     */
+    public function getIssuer(): string
+    {
+        return '';
+    }
+
+    /**
+     * Get e-mail
+     *
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return '';
+    }
+
+    /**
+     * Get payment type. "GooglePay" for example
+     *
+     * @return string
+     */
+    public function getPaymentType(): string
+    {
+        return '';
     }
 }
