@@ -39,8 +39,8 @@ class UpcProtocol implements PayProtocol
      */
     private $terminalId;
 
-    public function __construct($url = '', $merchantId = '', $terminalId = '', $pathToLocalKey = '',
-                                $pathToPaymentGateKey = '')
+    public function __construct(string $url = '', string $merchantId = '', string $terminalId = '', string $pathToLocalKey = '',
+                                string $pathToPaymentGateKey = '')
     {
         $this
             ->setPaymentGateUrl($url)
@@ -57,7 +57,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return string
      */
-    public function getPaymentUrl($params)
+    public function getPaymentUrl(array $params): string
     {
         return $this->getPaymentGateUrl();
     }
@@ -70,7 +70,7 @@ class UpcProtocol implements PayProtocol
      * @return array
      * @throws \Exception
      */
-    public function prepareParams($params)
+    public function prepareParams(array $params): array
     {
         $params = array_merge([
             'MerchantID' => $this->getMerchantId(),
@@ -89,12 +89,12 @@ class UpcProtocol implements PayProtocol
      * @return string
      * @throws \Exception
      */
-    protected function getSignature(array $params)
+    protected function getSignature(array $params): string
     {
         if (empty($this->getPathToLocalKey())) {
             throw new \Exception('UPC need key for signature');
         }
-        $purchaseTime = isset($params['PurchaseTime']) ? $params['PurchaseTime'] : '';
+        $purchaseTime = $params['PurchaseTime'] ?? '';
         $data = $this->getMerchantId() . ';' . $this->getTerminalId() . ';' . $purchaseTime . ';' . $params['OrderID'] . ';' . $params['Currency'] . ';' . $params['TotalAmount'] . ';' . $params['SD'] . ';';
         $fp = fopen($this->getPathToLocalKey(), 'r');
         $privateKey = fread($fp, 8192);
@@ -113,7 +113,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return bool
      */
-    public function validate($params)
+    public function validate(array $params): bool
     {
         return $this->checkSign($params);
     }
@@ -125,7 +125,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return int true if MD5 hash is correct
      */
-    private function checkSign($request)
+    private function checkSign(array $request): int
     {
         $signature = $request['Signature'];
         $signature = base64_decode($signature);
@@ -156,7 +156,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return mixed
      */
-    public function getPaymentId()
+    public function getPaymentId(): string
     {
         // TODO: Implement getPaymentId() method.
     }
@@ -169,7 +169,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return string
      */
-    public function getNotificationResponse($requestData, $errorCode)
+    public function getNotificationResponse($requestData, $errorCode): string
     {
         $responseString = '';
         $responseString .= 'MerchantID=' . $this->getMerchantId() . "\n";
@@ -183,7 +183,7 @@ class UpcProtocol implements PayProtocol
         $responseString .= 'Response.reason=' . "\n";
         $responseString .= 'Response.forwardUrl=' . "\n";
 
-        return response($responseString);
+        return $responseString;
     }
 
     /**
@@ -194,7 +194,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return string
      */
-    public function getCheckResponse($requestData, $errorCode)
+    public function getCheckResponse($requestData, $errorCode): string
     {
         return $this->getNotificationResponse($requestData, $errorCode);
     }
@@ -206,7 +206,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return $this
      */
-    public function setPaymentGateUrl($url)
+    public function setPaymentGateUrl(string $url): self
     {
         $this->paymentUrl = $url;
 
@@ -218,7 +218,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return string
      */
-    public function getPaymentGateUrl()
+    public function getPaymentGateUrl(): string
     {
         return $this->paymentUrl;
     }
@@ -226,7 +226,7 @@ class UpcProtocol implements PayProtocol
     /**
      * @return string
      */
-    public function getPathToLocalKey()
+    public function getPathToLocalKey(): string
     {
         return $this->pathToLocalKey;
     }
@@ -236,7 +236,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return $this
      */
-    public function setPathToLocalKey($pathToLocalKey)
+    public function setPathToLocalKey(string $pathToLocalKey): self
     {
         $this->pathToLocalKey = $pathToLocalKey;
 
@@ -246,7 +246,7 @@ class UpcProtocol implements PayProtocol
     /**
      * @return string
      */
-    public function getPathToPaymentGateKey()
+    public function getPathToPaymentGateKey(): string
     {
         return $this->pathToPaymentGateKey;
     }
@@ -256,7 +256,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return $this
      */
-    public function setPathToPaymentGateKey($pathToPaymentGateKey)
+    public function setPathToPaymentGateKey(string $pathToPaymentGateKey): self
     {
         $this->pathToPaymentGateKey = $pathToPaymentGateKey;
 
@@ -266,7 +266,7 @@ class UpcProtocol implements PayProtocol
     /**
      * @return string
      */
-    public function getMerchantId()
+    public function getMerchantId(): string
     {
         return $this->merchantId;
     }
@@ -276,7 +276,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return $this
      */
-    public function setMerchantId($merchantId)
+    public function setMerchantId(string $merchantId): self
     {
         $this->merchantId = $merchantId;
 
@@ -286,7 +286,7 @@ class UpcProtocol implements PayProtocol
     /**
      * @return string
      */
-    public function getTerminalId()
+    public function getTerminalId(): string
     {
         return $this->terminalId;
     }
@@ -296,7 +296,7 @@ class UpcProtocol implements PayProtocol
      *
      * @return $this
      */
-    public function setTerminalId($terminalId)
+    public function setTerminalId(string $terminalId): self
     {
         $this->terminalId = $terminalId;
 

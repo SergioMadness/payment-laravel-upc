@@ -27,13 +27,9 @@
     "source": "https://github.com/SergioMadness/payment-laravel-upc/releases"
   },
   "require": {
-    "illuminate/support": "5.*",
-    "professionalweb/payment-laravel": "^3.0"
+    "professionalweb/payment-laravel": "dev-develop"
   },
   "require-dev": {
-    "codeception/codeception": "*",
-    "satooshi/php-coveralls": "*",
-    "codeclimate/php-test-reporter": "*"
   },
   "config": {
     "process-timeout": 1800
@@ -41,6 +37,13 @@
   "autoload": {
     "psr-4": {
       "professionalweb\\payment\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "professionalweb\\payment\\UpcProvider"
+      ]
     }
   }
 }
