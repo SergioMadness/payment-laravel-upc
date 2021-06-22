@@ -4,10 +4,10 @@ use Illuminate\Http\Response;
 use professionalweb\payment\Form;
 use professionalweb\payment\contracts\Receipt;
 use professionalweb\payment\contracts\PayService;
+use professionalweb\payment\interfaces\UpcService;
 use professionalweb\payment\contracts\PayProtocol;
 use professionalweb\payment\contracts\Form as IForm;
 use professionalweb\payment\models\PayServiceOption;
-use professionalweb\payment\interfaces\upc\UpcService;
 
 /**
  * Payment service. Pay, Check, etc

@@ -3,9 +3,9 @@
 use Illuminate\Support\ServiceProvider;
 use professionalweb\payment\contracts\PayService;
 use professionalweb\payment\drivers\upc\UpcDriver;
+use professionalweb\payment\interfaces\UpcService;
 use professionalweb\payment\drivers\upc\UpcProtocol;
 use professionalweb\payment\contracts\PaymentFacade;
-use professionalweb\payment\interfaces\upc\UpcService;
 
 /**
  * upc.ua payment provider

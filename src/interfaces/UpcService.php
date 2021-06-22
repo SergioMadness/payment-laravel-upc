@@ -1,8 +1,8 @@
-<?php namespace professionalweb\payment\interfaces\upc;
+<?php namespace professionalweb\payment\interfaces;
 
 /**
  * Interface for UPC service
- * @package professionalweb\payment
+ * @package professionalweb\payment\interfaces
  */
 interface UpcService
 {
